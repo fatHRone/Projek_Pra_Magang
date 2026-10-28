@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Ruang Nalar: belajar filsafat lewat pertanyaan dan situasi sehari-hari."
+    />
+    <title>Ruang Nalar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400&family=Instrument+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f7f5f0;
+        --ink: #23262b;
+        --mut: #625f59;
+        --line: #ddd8cd;
+        --card: #fffdf8;
+        --ac: #2f5d62;
+        --on: #fff;
+        --err: #a3321f;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #1d1e20;
+          --ink: #ece9e2;
+          --mut: #a8a49b;
+          --line: #3a3b3d;
+          --card: #25262a;
+          --ac: #8cc3c8;
+          --on: #10211f;
+          --err: #ff9b87;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #1d1e20;
+        --ink: #ece9e2;
+        --mut: #a8a49b;
+        --line: #3a3b3d;
+        --card: #25262a;
+        --ac: #8cc3c8;
+        --on: #10211f;
+        --err: #ff9b87;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          18px/1.7 Newsreader,
+          Georgia,
+          serif;
+      }
+      h1,
+      h2,
+      h3,
+      button,
+      input,
+      select,
+      textarea,
+      nav,
+      .ui {
+        font-family: "Instrument Sans", system-ui, sans-serif;
+      }
+      h1 {
+        font:
+          600 clamp(2rem, 6vw, 3.4rem)/1.15 Newsreader,
+          Georgia,
+          serif;
+        margin: 0.2em 0 0.4em;
+        letter-spacing: -0.01em;
+      }
+      h2 {
+        font-size: 1.15rem;
+        margin: 1.8em 0 0.4em;
+      }
+      h3 {
+        font-size: 1.05rem;
+        margin: 0.5em 0 0.3em;
+      }
+      a {
+        color: var(--ac);
+      }
+      :focus-visible {
+        outline: 3px solid var(--ac);
+        outline-offset: 2px;
+      }
+      .w {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .r {
+        max-width: 640px;
+      }
+      header {
+        border-bottom: 1px solid var(--line);
+      }
+      header .w {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 22px;
+        align-items: center;
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+      .logo {
+        font:
+          600 1.25rem Newsreader,
+          serif;
+        text-decoration: none;
+        color: var(--ink);
+        margin-right: auto;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 18px;
+        font-size: 0.95rem;
+      }
+      nav a {
+        color: var(--ink);
+        text-decoration: none;
+        padding: 4px 0;
+      }
+      nav a[aria-current="page"] {
+        border-bottom: 2px solid var(--ac);
+      }
+      main {
+        padding: 36px 0 64px;
+        min-height: 60vh;
+      }
+      .btn,
+      button {
+        font:
+          600 0.95rem "Instrument Sans",
+          sans-serif;
+        background: var(--ac);
+        color: var(--on);
+        border: 1px solid var(--ac);
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        line-height: 1.3;
+      }
+      .btn.o,
+      button.o {
+        background: transparent;
+        color: var(--ink);
+        border-color: var(--line);
+      }
+      button.d {
+        background: transparent;
+        color: var(--err);
+        border-color: var(--err);
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 18px;
+        margin-top: 20px;
+      }
+      .card {
+        display: block;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .card:hover {
+        border-color: var(--ac);
+      }
+      .card p {
+        margin: 0.3em 0;
+        font-size: 0.98rem;
+        color: var(--mut);
+      }
+      .badge {
+        font: 600 0.8rem "Instrument Sans";
+        color: var(--ac);
+      }
+      small,
+      .mut {
+        color: var(--mut);
+        font-size: 0.9rem;
+        font-family: "Instrument Sans", sans-serif;
+      }
+      .hero {
+        padding: 30px 0 10px;
+      }
+      .hero .q {
+        font-style: italic;
+        max-width: 18em;
+      }
+      label {
+        display: block;
+        font: 600 0.9rem "Instrument Sans";
+        margin: 16px 0 4px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        font:
+          1rem "Instrument Sans",
+          sans-serif;
+        padding: 10px;
+        border: 1px solid var(--mut);
+        border-radius: 6px;
+        background: var(--card);
+        color: var(--ink);
+      }
+      textarea {
+        min-height: 220px;
+        line-height: 1.6;
+      }
+      .err {
+        color: var(--err);
+        font: 600 0.9rem "Instrument Sans";
+        margin: 8px 0;
+      }
+      .bar {
+        height: 10px;
+        background: var(--line);
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: var(--ac);
+      }
+      .empty {
+        border: 1px dashed var(--mut);
+        border-radius: 8px;
+        padding: 28px;
+        text-align: center;
+        color: var(--mut);
+      }
+      blockquote {
+        border-left: 3px solid var(--ac);
+        margin: 1.4em 0;
+        padding: 2px 16px;
+        font-style: italic;
+      }
+      .note {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 10px 14px;
+        font: 0.88rem "Instrument Sans";
+        color: var(--mut);
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 24px 0 40px;
+        font: 0.9rem "Instrument Sans";
+        color: var(--mut);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font: 0.95rem "Instrument Sans";
+      }
+      td,
+      th {
+        text-align: left;
+        padding: 8px 6px;
+        border-bottom: 1px solid var(--line);
+      }
+      .sr {
+        position: absolute;
+        left: -9999px;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        main {
+          animation: in 0.35s ease-out;
+        }
+        @keyframes in {
+          from {
+            opacity: 0;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a
+      class="sr"
+      href="#isi"
+      onclick="
+        document.getElementById('isi').focus();
+        return false;
+      "
+      >Lewati ke konten</a
+    >
+    <header>
+      <div class="w">
+        <a class="logo" href="#/">Ruang Nalar</a>
+        <nav id="nav" aria-label="Navigasi utama"></nav>
+      </div>
+    </header>
+    <main id="isi" tabindex="-1"><div class="w" id="app"></div></main>
+    <div class="sr" id="live" role="status" aria-live="polite"></div>
+    <footer>
+      <div class="w">
+        <p>
+          Ruang Nalar bersifat edukatif dan bukan pengganti layanan profesional.
+          <a href="#/privasi">Privasi</a> &nbsp; <a href="#/bantuan">Bantuan</a>
+        </p>
+        <p>
+          Mode demo: data tersimpan hanya di peramban ini. Jangan memakai kata
+          sandi asli.
+        </p>
+      </div>
+    </footer>
+    <script>
+      const E = (s) =>
+        String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      const KEY = "ruangnalar-demo-v1",
+        $ = (s) => document.querySelector(s);
+      const TOP = [
+        {
+          s: "stoisisme",
+          t: "Stoisisme",
+          d: "Memilah yang dapat dan tidak dapat kita kendalikan.",
+        },
+        {
+          s: "eksistensialisme",
+          t: "Eksistensialisme",
+          d: "Pilihan, tanggung jawab, dan makna.",
+        },
+        { s: "etika", t: "Etika", d: "Menimbang konsekuensi dan nilai." },
+        {
+          s: "epikureanisme",
+          t: "Epikureanisme",
+          d: "Memahami kesenangan dan kebutuhan dengan cermat.",
+        },
+        {
+          s: "skeptisisme",
+          t: "Skeptisisme",
+          d: "Memeriksa asumsi dan keyakinan.",
+        },
+        {
+          s: "filsafat-praktis",
+          t: "Filsafat praktis",
+          d: "Mengajukan pertanyaan yang lebih baik.",
+        },
+      ];
+      const L = (i, t, ti, su, m, c, r) => ({
+        id: "l" + i,
+        topic: t,
+        title: ti,
+        slug: ti
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, ""),
+        summary: su,
+        min: m,
+        content: c,
+        refs: r,
+        status: "published",
+      });
+      const SEED = [
+        L(
+          1,
+          "stoisisme",
+          "Yang dapat dan tidak dapat kita kendalikan",
+          "Memilah apa yang bergantung pada kita dan apa yang tidak, lalu memilih di mana tenaga dipakai.",
+          6,
+          "## Gagasan inti\nKaum Stoa, seperti Epiktetos, membedakan hal yang bergantung pada kita (penilaian, niat, tindakan) dari yang tidak (cuaca, opini orang lain, hasil akhir).\n## Contoh sehari-hari\nKamu sudah menyiapkan presentasi dengan baik. Persiapannya ada dalam kendalimu, reaksi audiens tidak. Memilah keduanya membantu menentukan di mana usaha diarahkan.\n## Catatan\nIni satu tafsir yang berpengaruh, bukan satu-satunya jawaban.\n> Dari hal yang kamu cemaskan minggu ini, mana yang benar-benar bisa kamu tindak?",
+          "Epiktetos, Enchiridion.",
+        ),
+        L(
+          2,
+          "eksistensialisme",
+          "Memilih dan bertanggung jawab",
+          "Bagaimana pilihan sehari-hari membentuk siapa kita, menurut para eksistensialis.",
+          7,
+          "## Gagasan inti\nJean-Paul Sartre berpendapat bahwa manusia tidak lahir dengan tujuan yang sudah ditetapkan, sehingga makna dibentuk lewat pilihan dan tindakan.\n## Contoh sehari-hari\nMemilih jurusan, pekerjaan, atau cara memperlakukan orang lain adalah pilihan yang tidak bisa sepenuhnya diserahkan kepada keadaan.\n## Catatan\nPara pemikir eksistensialis berbeda pendapat satu sama lain, termasuk soal makna dan kebebasan.\n> Pilihan apa yang selama ini kamu anggap bukan pilihan?",
+          "Jean-Paul Sartre, Eksistensialisme adalah Humanisme.",
+        ),
+        L(
+          3,
+          "etika",
+          "Menimbang akibat dan nilai",
+          "Dua cara menilai tindakan: dari akibatnya dan dari prinsip yang dipegang.",
+          8,
+          "## Gagasan inti\nKonsekuensialisme, misalnya utilitarianisme John Stuart Mill, menilai tindakan dari akibatnya. Etika Kant menekankan kewajiban dan prinsip yang dapat berlaku bagi semua orang.\n## Contoh sehari-hari\nHaruskah kamu jujur menyampaikan kritik yang menyakitkan? Pendekatan akibat dan pendekatan prinsip dapat menuntun ke jawaban berbeda.\n## Catatan\nKeduanya punya pendukung dan keberatan yang serius.\n> Prinsip mana yang sulit kamu langgar, bahkan jika akibatnya menguntungkan?",
+          "John Stuart Mill, Utilitarianism; Immanuel Kant, Groundwork of the Metaphysics of Morals.",
+        ),
+        L(
+          4,
+          "epikureanisme",
+          "Kesenangan dan kebutuhan",
+          "Membedakan keinginan yang perlu dari yang tidak, menurut Epikuros.",
+          6,
+          "## Gagasan inti\nEpikuros membedakan keinginan alami yang perlu, alami yang tidak perlu, dan yang sia-sia. Ia menekankan ketenangan dan persahabatan, bukan kemewahan.\n## Contoh sehari-hari\nMembeli barang baru bisa terasa memuaskan sebentar. Menimbang apa yang benar-benar menopang hidup baikmu membantu memilah.\n## Catatan\nEpikureanisme sering disalahpahami sebagai ajakan berfoya-foya, padahal tidak.\n> Keinginan mana milikmu yang tergolong perlu?",
+          "Epikuros, Surat kepada Menoikeus.",
+        ),
+        L(
+          5,
+          "skeptisisme",
+          "Memeriksa asumsi",
+          'Cara bertanya "dari mana saya tahu ini?" tanpa berhenti percaya pada apa pun.',
+          7,
+          "## Gagasan inti\nSkeptisisme mengajak menguji dasar keyakinan. René Descartes memakai keraguan sebagai metode untuk mencari dasar yang kokoh.\n## Contoh sehari-hari\nSaat membaca kabar viral, tanyakan sumbernya, buktinya, dan penjelasan lain yang mungkin.\n## Catatan\nSkeptisisme filosofis berbeda dari sinisme; tujuannya menimbang, bukan menolak segalanya.\n> Satu keyakinanmu yang belum pernah kamu periksa dasarnya?",
+          "René Descartes, Meditationes de Prima Philosophia.",
+        ),
+        L(
+          6,
+          "filsafat-praktis",
+          "Mengajukan pertanyaan yang lebih baik",
+          "Mengubah pertanyaan yang kabur menjadi pertanyaan yang bisa ditelusuri.",
+          5,
+          '## Gagasan inti\nSokrates dikenal lewat pertanyaan yang menggali arti kata dan alasan di balik pendapat.\n## Contoh sehari-hari\n"Apakah saya sukses?" terlalu kabur. "Apa arti sukses bagi saya, dan apa buktinya?" lebih mudah ditelusuri.\n## Catatan\nPertanyaan yang baik tidak selalu berujung pada satu jawaban.\n> Pertanyaan apa yang ingin kamu ajukan ulang dengan lebih jelas?',
+          "Plato, Apologia dan dialog-dialog awal.",
+        ),
+      ];
+      const QS = [
+        "Apa yang sebenarnya ada dalam kendalimu hari ini?",
+        "Pilihan mana yang selama ini kamu sebut keadaan?",
+        "Dari mana kamu tahu apa yang kamu yakini?",
+        "Keinginan mana yang benar-benar kamu perlukan?",
+      ];
+      let S,
+        qi = 0;
+      function load() {
+        try {
+          S = JSON.parse(localStorage.getItem(KEY));
+        } catch (e) {}
+        if (!S)
+          S = {
+            users: [
+              {
+                id: "u0",
+                email: "editor@demo.test",
+                pw: "editor123",
+                name: "Editor Demo",
+                role: "editor",
+              },
+            ],
+            me: null,
+            lessons: SEED,
+            prog: {},
+            bm: {},
+            jr: {},
+            log: [],
+          };
+      }
+      function save() {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(S));
+        } catch (e) {}
+      }
+      const me = () => S.users.find((u) => u.id === S.me),
+        isEd = () => me() && me().role === "editor";
+      const topic = (s) => TOP.find((t) => t.s === s),
+        pub = () =>
+          S.lessons.filter((l) => l.status === "published" && topic(l.topic));
+      const P = () => (S.prog[S.me] = S.prog[S.me] || {}),
+        B = () => (S.bm[S.me] = S.bm[S.me] || []),
+        J = () => (S.jr[S.me] = S.jr[S.me] || []);
+      const say = (m) => {
+        $("#live").textContent = m;
+      };
+      const card = (l) =>
+        `<a class="card" href="#/belajar/${E(l.slug)}"><span class="badge">${E(topic(l.topic)?.t)}</span><h3>${E(l.title)}</h3><p>${E(l.summary)}</p><small>${l.min} menit baca</small>${me() && P()[l.id]?.status === "completed" ? " <small><b>Selesai</b></small>" : ""}</a>`;
+      const md = (c) =>
+        c
+          .split("\n")
+          .map((x) =>
+            x.startsWith("## ")
+              ? `<h2>${E(x.slice(3))}</h2>`
+              : x.startsWith("> ")
+                ? `<blockquote>${E(x.slice(2))}</blockquote>`
+                : x
+                  ? `<p>${E(x)}</p>`
+                  : "",
+          )
+          .join("");
+      const empty = (t, l) =>
+        `<div class="empty"><p>${E(t)}</p>${l ? `<a class="btn" href="${l[1]}">${E(l[0])}</a>` : ""}</div>`;
+      function complete(id) {
+        const u = me();
+        if (!u) return "Masuk dulu untuk menyimpan progres.";
+        const l = S.lessons.find((x) => x.id === id);
+        if (!l || l.status !== "published" || !topic(l.topic))
+          return "Materi ini belum dapat diselesaikan.";
+        const p = P(),
+          lg = S.log.slice();
+        try {
+          p[id] = { status: "completed", at: new Date().toISOString() };
+          lg.push({ u: u.id, e: "lesson_completed", l: id, at: p[id].at });
+          S.log = lg;
+          save();
+        } catch (e) {
+          return "Gagal menyimpan. Coba lagi.";
+        }
+        return "";
+      }
+      const V = {
+        "/": () => `<section class="hero"><p class="mut ui">Belajar filsafat dari situasi sehari-hari</p><h1 class="q" id="q">${E(QS[qi])}</h1><div class="row"><a class="btn" href="#/belajar">Mulai belajar</a><button class="o" data-act="q">Pertanyaan lain</button></div></section>
+<p class="r">Ruang Nalar menyajikan pelajaran singkat, contoh praktis, pertanyaan refleksi opsional, dan catatan progres. Ini sarana belajar, bukan terapi atau diagnosis.</p>
+<h2>Topik unggulan</h2><div class="grid">${TOP.slice(0, 3)
+          .map(
+            (t) =>
+              `<a class="card" href="#/topik/${t.s}"><h3>${E(t.t)}</h3><p>${E(t.d)}</p></a>`,
+          )
+          .join("")}</div>`,
+        "/belajar": (a, q = "") => {
+          const r = pub().filter((l) =>
+            l.title.toLowerCase().includes(q.toLowerCase()),
+          );
+          return `<h1>Katalog materi</h1><label for="cari">Cari judul materi</label><input id="cari" type="search" value="${E(q)}" data-act="cari"><div class="grid" id="hasil">${r.map(card).join("")}</div>${r.length ? "" : empty("Tidak ada materi dengan judul itu. Coba kata kunci lain.")}`;
+        },
+        "/belajar/": (s) => {
+          const l = pub().find((x) => x.slug === s);
+          if (!l)
+            return `<h1>Materi tidak ditemukan</h1>${empty("Materi ini tidak ada atau belum diterbitkan.", ["Lihat katalog", "#/belajar"])}`;
+          const st = me() && P()[l.id]?.status,
+            bm = me() && B().includes(l.id);
+          return `<article class="r"><a href="#/topik/${l.topic}" class="badge">${E(topic(l.topic).t)}</a><h1>${E(l.title)}</h1><p class="mut">${E(l.summary)} (${l.min} menit baca)</p><div class="row ui" id="aksi">
+ ${st === "completed" ? "<b>Materi selesai</b>" : `<button data-act="${st ? "done" : "start"}" data-id="${l.id}">${st ? "Tandai selesai" : "Mulai belajar"}</button>`}
+ <button class="o" data-act="bm" data-id="${l.id}" aria-pressed="${!!bm}">${bm ? "Hapus bookmark" : "Simpan bookmark"}</button></div>
+ ${md(l.content)}<h2>Rujukan</h2><p class="mut">${E(l.refs)}</p><p class="note">Materi edukatif. Beberapa bagian adalah tafsir, bukan fakta tunggal.</p></article>`;
+        },
+        "/topik/": (s) => {
+          const t = topic(s);
+          if (!t) return `<h1>Topik tidak ditemukan</h1>`;
+          const r = pub().filter((l) => l.topic === s);
+          return `<h1>${E(t.t)}</h1><p class="r">${E(t.d)}</p><div class="grid">${r.map(card).join("")}</div>${r.length ? "" : empty("Belum ada materi terbit di topik ini.")}`;
+        },
+        "/daftar": () => auth("daftar"),
+        "/login": () => auth("login"),
+        "/dashboard": () => {
+          const p = P(),
+            all = pub(),
+            done = all.filter((l) => p[l.id]?.status === "completed"),
+            n = all.length ? Math.round((done.length / all.length) * 100) : 0,
+            bm = B()
+              .map((i) => all.find((l) => l.id === i))
+              .filter(Boolean);
+          return `<h1>Halo, ${E(me().name)}</h1><h2>Progres belajar</h2><p>${done.length} dari ${all.length} materi selesai</p><div class="bar" role="progressbar" aria-valuenow="${n}" aria-valuemin="0" aria-valuemax="100"><i style="width:${n}%"></i></div>
+ <h2>Materi tersimpan</h2><div class="grid">${bm.map(card).join("")}</div>${bm.length ? "" : empty("Belum ada materi tersimpan.", ["Jelajahi katalog", "#/belajar"])}`;
+        },
+        "/profil": () =>
+          `<h1>Profil</h1><form id="f-profil" class="r" novalidate><label for="nm">Nama tampilan</label><input id="nm" name="nm" maxlength="80" value="${E(me().name)}"><p class="mut">Email: ${E(me().email)}</p><div class="err" id="er"></div><div class="row"><button>Simpan profil</button><button type="button" class="d" data-act="hapus-akun">Hapus akun dan data</button></div></form>`,
+        "/jurnal": () => {
+          const j = J()
+            .slice()
+            .sort((a, b) => b.upd.localeCompare(a.upd));
+          return `<h1>Jurnal refleksi</h1><p class="r mut">Catatan ini privat dan hanya terlihat olehmu.</p><a class="btn" href="#/jurnal/baru">Tulis catatan</a><div class="grid">${j.map((x) => `<a class="card" href="#/jurnal/${x.id}"><h3>${E(x.title)}</h3><small>Diperbarui ${new Date(x.upd).toLocaleDateString("id-ID")}</small></a>`).join("")}</div>${j.length ? "" : empty("Belum ada catatan. Mulailah dari satu pertanyaan refleksi.")}`;
+        },
+        "/jurnal/": (id) => {
+          const x =
+            id === "baru"
+              ? { title: "", content: "" }
+              : J().find((j) => j.id === id);
+          if (!x) return `<h1>Catatan tidak ditemukan</h1>`;
+          return `<h1>${id === "baru" ? "Catatan baru" : "Ubah catatan"}</h1><form id="f-jurnal" class="r" data-id="${E(id)}" novalidate><label for="jt">Judul (maks. 120 karakter)</label><input id="jt" name="t" maxlength="120" value="${E(x.title)}"><label for="jc">Isi (maks. 20.000 karakter)</label><textarea id="jc" name="c" maxlength="20000">${E(x.content)}</textarea><div class="err" id="er"></div><div class="row"><button>Simpan catatan</button><a class="btn o" href="#/jurnal">Batal</a>${id !== "baru" ? `<button type="button" class="d" data-act="delj" data-id="${E(id)}">Hapus</button>` : ""}</div></form>`;
+        },
+        "/privasi": () =>
+          `<h1>Privasi</h1><div class="r"><p>Ruang Nalar hanya mengumpulkan data yang diperlukan: akun, progres, bookmark, dan jurnal.</p><p>Jurnal bersifat privat. Tidak ada jurnal publik atau forum, dan pengelola konten tidak otomatis dapat membacanya.</p><p>Kamu dapat menghapus akun dan seluruh data terkait dari halaman Profil; tindakan ini tidak dapat dibatalkan.</p><p class="note">Prototipe ini menyimpan data di peramban kamu saja.</p></div>`,
+        "/bantuan": () =>
+          `<h1>Bantuan</h1><div class="r"><p>Materi di sini bersifat edukatif. Ruang Nalar bukan layanan kesehatan mental, tidak memberi diagnosis, dan tidak menjanjikan hasil tertentu.</p><p>Jika kamu sedang kesulitan, bicarakan dengan orang tepercaya atau tenaga profesional. Dalam keadaan darurat, hubungi layanan darurat setempat.</p><p>Kendala teknis? Muat ulang halaman, lalu coba lagi.</p></div>`,
+        "/admin/materi": () =>
+          `<h1>Kelola materi</h1><a class="btn" href="#/admin/materi/baru">Materi baru</a><div style="overflow-x:auto"><table><tr><th>Judul</th><th>Status</th><th>Aksi</th></tr>${S.lessons.map((l) => `<tr><td>${E(l.title)}</td><td>${l.status}</td><td class="row"><a href="#/admin/materi/${l.id}/edit">Ubah</a>${l.status !== "published" ? `<button class="o" data-act="st" data-id="${l.id}" data-v="published">Terbitkan</button>` : ""}${l.status !== "archived" ? `<button class="o" data-act="st" data-id="${l.id}" data-v="archived">Arsipkan</button>` : ""}</td></tr>`).join("")}</table></div>`,
+        "/admin/materi/": (id) => {
+          const x =
+            id === "baru"
+              ? {
+                  title: "",
+                  topic: "stoisisme",
+                  summary: "",
+                  content: "",
+                  min: 5,
+                  refs: "",
+                  slug: "",
+                }
+              : S.lessons.find((l) => l.id === id);
+          if (!x) return "<h1>Materi tidak ditemukan</h1>";
+          return `<h1>${id === "baru" ? "Materi baru" : "Ubah materi"}</h1><form id="f-materi" class="r" data-id="${E(id)}" novalidate><label for="mt">Judul</label><input id="mt" name="t" maxlength="160" value="${E(x.title)}"><label for="ms">Slug (kosongkan untuk otomatis)</label><input id="ms" name="s" value="${E(x.slug)}"><label for="mp">Topik</label><select id="mp" name="p">${TOP.map((t) => `<option value="${t.s}" ${t.s === x.topic ? "selected" : ""}>${t.t}</option>`).join("")}</select><label for="mr">Ringkasan (maks. 500)</label><input id="mr" name="r" maxlength="500" value="${E(x.summary)}"><label for="mm">Estimasi menit baca (1-120)</label><input id="mm" name="m" type="number" min="1" max="120" value="${x.min}"><label for="mc">Isi (## subjudul, > refleksi)</label><textarea id="mc" name="c">${E(x.content)}</textarea><label for="mf">Rujukan</label><input id="mf" name="f" value="${E(x.refs)}"><div class="err" id="er"></div><div class="row"><button name="a" value="draft">Simpan draft</button><button class="o" name="a" value="published">Terbitkan</button></div></form>`;
+        },
+      };
+      function auth(k) {
+        const d = k === "daftar";
+        return `<h1>${d ? "Daftar" : "Masuk"}</h1><form id="f-${k}" class="r" novalidate>${d ? '<label for="nm">Nama tampilan</label><input id="nm" name="nm" maxlength="80">' : ""}<label for="em">Email</label><input id="em" name="em" type="email" autocomplete="email"><label for="pw">Kata sandi (minimal 8 karakter)</label><input id="pw" name="pw" type="password" autocomplete="${d ? "new-password" : "current-password"}"><div class="err" id="er" role="alert"></div><button>${d ? "Buat akun" : "Masuk"}</button></form><p class="mut">${d ? 'Sudah punya akun? <a href="#/login">Masuk</a>' : 'Belum punya akun? <a href="#/daftar">Daftar</a>'}</p>${d ? "" : '<p class="note">Demo editor: editor@demo.test / editor123</p>'}`;
+      }
+      const PRIV = ["/dashboard", "/profil", "/jurnal", "/jurnal/"],
+        ADM = ["/admin/materi", "/admin/materi/"];
+      function render() {
+        const h = location.hash.slice(1) || "/",
+          m = h.match(/^(\/[^/]*(?:\/[^/]+)?)(?:\/(edit))?$/),
+          seg = h.split("/").filter(Boolean);
+        let key = "/" + (seg[0] || ""),
+          arg = seg[1];
+        if (seg[0] === "admin") {
+          key = seg.length > 2 ? "/admin/materi/" : "/admin/materi";
+          arg =
+            seg[2] === "edit" ? seg[1] : seg[2] === undefined ? seg[2] : seg[2];
+        }
+        if (seg[0] === "admin" && seg.length >= 3)
+          arg = seg[3] === "edit" ? seg[2] : seg[2];
+        if (seg[0] === "admin" && seg[1] === "materi" && seg.length === 3)
+          arg = seg[2];
+        if (seg[0] === "admin" && seg[1] === "materi" && seg.length === 4)
+          arg = seg[2];
+        if (seg[0] === "belajar" && arg) key = "/belajar/";
+        if (seg[0] === "topik") key = "/topik/";
+        if (seg[0] === "jurnal" && arg) key = "/jurnal/";
+        let f = V[key];
+        const ad = key.startsWith("/admin"),
+          pv = PRIV.includes(key) || key === "/jurnal/";
+        let out;
+        if ((pv || ad) && !me())
+          out = `<h1>Masuk diperlukan</h1>${empty("Halaman ini hanya untuk pengguna yang sudah masuk.", ["Masuk", "#/login"])}`;
+        else if (ad && !isEd())
+          out = `<h1>Akses ditolak</h1>${empty("Halaman ini khusus editor dan admin.", ["Kembali ke beranda", "#/"])}`;
+        else
+          out = f
+            ? f(arg)
+            : `<h1>Halaman tidak ditemukan</h1>${empty("Alamat ini tidak ada.", ["Ke beranda", "#/"])}`;
+        $("#app").innerHTML = out;
+        const nv = [
+          ["/", "Beranda"],
+          ["/belajar", "Belajar"],
+        ];
+        if (me()) {
+          nv.push(
+            ["/dashboard", "Dashboard"],
+            ["/jurnal", "Jurnal"],
+            ["/profil", "Profil"],
+          );
+          if (isEd()) nv.push(["/admin/materi", "Kelola"]);
+        }
+        $("#nav").innerHTML =
+          nv
+            .map(
+              ([p, t]) =>
+                `<a href="#${p}" ${"/" + (seg[0] || "") === p ? 'aria-current="page"' : ""}>${t}</a>`,
+            )
+            .join("") +
+          (me()
+            ? '<a href="#/" data-act="out">Keluar</a>'
+            : '<a href="#/login">Masuk</a><a href="#/daftar">Daftar</a>');
+        document.title =
+          (out.match(/<h1[^>]*>([^<]*)/)?.[1] || "Ruang Nalar") +
+          " | Ruang Nalar";
+        window.scrollTo(0, 0);
+      }
+      const err = (m) => {
+          $("#er").textContent = m;
+          return false;
+        },
+        Z = (s) => (s || "").trim();
+      document.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const f = e.target,
+          d = new FormData(f, e.submitter),
+          id = f.id,
+          u = me();
+        if (id === "f-daftar" || id === "f-login") {
+          const em = Z(d.get("em")).toLowerCase(),
+            pw = d.get("pw") || "";
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))
+            return err("Format email belum benar.");
+          if (pw.length < 8) return err("Kata sandi minimal 8 karakter.");
+          if (id === "f-daftar") {
+            if (S.users.some((x) => x.email === em))
+              return err(
+                "Email ini tidak dapat dipakai. Coba email lain atau masuk.",
+              );
+            const x = {
+              id: "u" + Date.now(),
+              email: em,
+              pw,
+              name: Z(d.get("nm")) || "Pelajar",
+              role: "user",
+            };
+            S.users.push(x);
+            S.me = x.id;
+          } else {
+            const x = S.users.find((v) => v.email === em && v.pw === pw);
+            if (!x) return err("Email atau kata sandi tidak cocok.");
+            S.me = x.id;
+          }
+          save();
+          location.hash = "#/dashboard";
+          render();
+        }
+        if (id === "f-profil") {
+          const n = Z(d.get("nm"));
+          if (!n || n.length > 80)
+            return err("Nama wajib diisi, maksimal 80 karakter.");
+          u.name = n;
+          save();
+          say("Profil disimpan");
+          render();
+        }
+        if (id === "f-jurnal") {
+          const t = Z(d.get("t")),
+            c = Z(d.get("c"));
+          if (!t || t.length > 120)
+            return err("Judul wajib diisi, maksimal 120 karakter.");
+          if (!c || c.length > 20000)
+            return err("Isi wajib diisi, maksimal 20.000 karakter.");
+          const now = new Date().toISOString(),
+            x =
+              f.dataset.id === "baru"
+                ? (J().push({
+                    id: "j" + Date.now(),
+                    title: t,
+                    content: c,
+                    upd: now,
+                  }),
+                  0)
+                : J().find((j) => j.id === f.dataset.id);
+          if (x) {
+            x.title = t;
+            x.content = c;
+            x.upd = now;
+          }
+          save();
+          say("Catatan disimpan");
+          location.hash = "#/jurnal";
+        }
+        if (id === "f-materi") {
+          const t = Z(d.get("t")),
+            sl = (Z(d.get("s")) || t)
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/^-|-$/g, ""),
+            pb = d.get("a") === "published",
+            o = {
+              title: t,
+              slug: sl,
+              topic: d.get("p"),
+              summary: Z(d.get("r")),
+              min: +d.get("m") || 5,
+              content: Z(d.get("c")),
+              refs: Z(d.get("f")),
+            },
+            cur = S.lessons.find((l) => l.id === f.dataset.id);
+          if (!t || !sl) return err("Judul wajib diisi.");
+          if (S.lessons.some((l) => l.slug === sl && l !== cur))
+            return err("Slug sudah dipakai materi lain. Ubah slug.");
+          if (o.min < 1 || o.min > 120)
+            return err("Menit baca harus 1 sampai 120.");
+          if (pb && (!o.summary || !o.content))
+            return err("Untuk menerbitkan, ringkasan dan isi wajib diisi.");
+          if (cur) Object.assign(cur, o, pb ? { status: "published" } : {});
+          else
+            S.lessons.push({
+              id: "l" + Date.now(),
+              status: pb ? "published" : "draft",
+              ...o,
+            });
+          save();
+          say("Materi disimpan");
+          location.hash = "#/admin/materi";
+        }
+      });
+      document.addEventListener("input", (e) => {
+        if (e.target.dataset.act === "cari") {
+          const q = e.target.value;
+          $("#app").innerHTML = V["/belajar"](0, q);
+          const i = $("#cari");
+          i.focus();
+          i.setSelectionRange(q.length, q.length);
+        }
+      });
+      document.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-act]");
+        if (!b || b.tagName === "INPUT") return;
+        const a = b.dataset.act,
+          id = b.dataset.id;
+        if (a === "q") {
+          qi = (qi + 1) % QS.length;
+          $("#q").textContent = QS[qi];
+        }
+        if (a === "out") {
+          S.me = null;
+          save();
+          say("Kamu sudah keluar");
+        }
+        if (a === "start" || a === "done") {
+          if (!me()) {
+            location.hash = "#/login";
+            return;
+          }
+          if (a === "start") P()[id] = { status: "in_progress" };
+          else {
+            const m = complete(id);
+            if (m) {
+              say(m);
+              return;
+            }
+          }
+          save();
+          say(a === "done" ? "Materi ditandai selesai" : "Materi dimulai");
+          render();
+        }
+        if (a === "bm") {
+          if (!me()) {
+            location.hash = "#/login";
+            return;
+          }
+          const x = B(),
+            i = x.indexOf(id);
+          i < 0 ? x.push(id) : x.splice(i, 1);
+          save();
+          say(i < 0 ? "Bookmark disimpan" : "Bookmark dihapus");
+          render();
+        }
+        if (
+          a === "delj" &&
+          confirm("Hapus catatan ini? Tindakan ini tidak dapat dibatalkan.")
+        ) {
+          S.jr[S.me] = J().filter((j) => j.id !== id);
+          save();
+          location.hash = "#/jurnal";
+        }
+        if (
+          a === "hapus-akun" &&
+          confirm(
+            "Hapus akun beserta progres, bookmark, dan jurnal? Tindakan ini tidak dapat dibatalkan.",
+          )
+        ) {
+          const u = S.me;
+          S.users = S.users.filter((x) => x.id !== u);
+          ["prog", "bm", "jr"].forEach((k) => delete S[k][u]);
+          S.log = S.log.filter((l) => l.u !== u);
+          S.me = null;
+          save();
+          location.hash = "#/";
+        }
+        if (a === "st") {
+          if (!isEd()) return;
+          S.lessons.find((l) => l.id === id).status = b.dataset.v;
+          save();
+          say("Status materi diperbarui");
+          render();
+        }
+      });
+      window.addEventListener("hashchange", render);
+      load();
+      render();
+    </script>
+  </body>
+</html>
